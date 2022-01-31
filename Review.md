@@ -10,6 +10,7 @@
 ### [2022.01.28 TIL](#day-08)
 ### [2022.01.29 TIL](#day-09)
 ### [2022.01.30 TIL](#day-10)
+### [2022.01.31 TIL](#day-11)
 
 
 ## **_Day 01_**
@@ -316,6 +317,82 @@
 - 서로 밀접한 관계에 있는 개념들이라면 가까이 놓아져야 한다.
 - ESLint,Prettier에게 무한한 감사를 드린다.
 
+---
+
+</br>
+
+## **_Day 11_**
+## TIL(2022.01.31) 
+</br>
+
+### 더러운 코드를 고치자 🌟
+클린 코드 읽으며 무엇이 깨끗한 코드인지, 어떻게 고쳐서 깨끗하게 만들 수 있는지 매일 매일 몸으로 느끼는 중이죠? 직접 깨끗한 코드를 써보며, 실전! 클린코드 해봐요~!
+
+</br>
+
+💩 내 더러운 코드좀 봐주세요 💩
+제보자 J***님의 코멘트 :
+자스챌 할때 크리스마스까지 남은 시간 계산기인데요, 모범답안에서 시,분을 초로 계산하는걸 다르게 했던 것 같은데~! 잘 모르겠어용ㅋㅋ 자스챌 복습하러 가야겠....
+
+```js
+const merry = document.querySelector(".js-clock");
+
+function getClock() {
+const christmas = new Date("2021, 12, 25");
+const date = new Date();
+const timeGap = christmas - date;
+
+const xDay = Math.floor(timeGap / (1000 * 60 * 60 * 24));
+const xHours = Math.floor(
+(timeGap - xDay * 1000 * 60 * 60 * 24) / (1000 * 60 * 60)
+);
+const xMinutes = Math.floor((timeGap % (60 * 60 * 1000)) / (60 * 1000));
+const xSeconds = Math.floor((timeGap % (60 * 1000)) / 1000);
+
+const day = String(xDay).padStart(2, "0");
+const hours = String(xHours).padStart(2, "0");
+const minutes = String(xMinutes).padStart(2, "0");
+const seconds = String(xSeconds).padStart(2, "0");
+
+merry.innerText = `${day}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+getClock();
+setInterval(getClock, 1000);
+```
+</br>
+
+이렇게 치워드렸습니다 🚽  *
+클린하게 바꾼 코드를 남겨주세요 :)
+```js
+const merry = document.querySelector(".js-clock");
+
+function getClock() {
+  const christmas = new Date("2022, 12, 25");
+  const date = new Date();
+  const timeGap = christmas - date;
+
+  const xDay = Math.floor(timeGap / (1000 * 60 * 60 * 24));
+  const xHours = Math.floor(
+    (timeGap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const xMinutes = Math.floor((timeGap % (60 * 60 * 1000)) / (60 * 1000));
+  const xSeconds = Math.floor((timeGap % (60 * 1000)) / 1000);
+
+  merry.innerText = `${xDay < 10 ? `0${xDay}` : xDay}d ${
+    xHours < 10 ? `0${xHours}` : xHours
+  }h ${xMinutes < 10 ? `0${xMinutes}` : xMinutes}m ${
+    xSeconds < 10 ? `0${xSeconds}` : xSeconds
+  }s`;
+}
+
+function clocks(){
+  getClock();
+  setInterval(getClock,1000);
+}
+
+clocks();
+```
 ---
 
 </br>
