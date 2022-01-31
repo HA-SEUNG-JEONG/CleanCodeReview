@@ -367,32 +367,46 @@ setInterval(getClock, 1000);
 ```js
 const merry = document.querySelector(".js-clock");
 
-function getClock() {
+const MinutesToMilisec=1000*60;
+const HoursToMillisec=MinutesToMilisec*60;
+const DaysToMillisec=HoursToMillisec*24;
+
+function RemainToChristmas(arg){
+  return String(arg);
+}
+
+function ChristmasTimeGap(){
   const christmas = new Date("2022, 12, 25");
   const date = new Date();
-  const timeGap = christmas - date;
-
-  const xDay = Math.floor(timeGap / (1000 * 60 * 60 * 24));
-  const xHours = Math.floor(
-    (timeGap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  );
-  const xMinutes = Math.floor((timeGap % (60 * 60 * 1000)) / (60 * 1000));
-  const xSeconds = Math.floor((timeGap % (60 * 1000)) / 1000);
-
-  merry.innerText = `${xDay < 10 ? `0${xDay}` : xDay}d ${
-    xHours < 10 ? `0${xHours}` : xHours
-  }h ${xMinutes < 10 ? `0${xMinutes}` : xMinutes}m ${
-    xSeconds < 10 ? `0${xSeconds}` : xSeconds
-  }s`;
+  return christmas-date;
 }
 
-function clocks(){
-  getClock();
-  setInterval(getClock,1000);
+function DisplayRemainTime(){
+  const DisplayTime=getClock();
+  merry.innerText=DisplayTime;
 }
 
-clocks();
+
+function getClock() {
+  const christmasremainingtime=ChristmasTimeGap();
+  const christmasremainingDay = Math.floor(christmasremainingtime / DaysToMillisec);
+  const christmasremainingHours = Math.floor((christmasremainingtime - christmasremainingDay * DaysToMillisec) / HoursToMillisec);
+  const christmasremainingMinutes = Math.floor((christmasremainingtime % HoursToMillisec) / MinutesToMilisec);
+  const christmasremainingSeconds = Math.floor((christmasremainingtime % MinutesToMilisec) / 1000);
+
+  return `${RemainToChristmas(christmasremainingDay)}days ${RemainToChristmas(christmasremainingHours)}hours ${RemainToChristmas(christmasremainingMinutes)}minutes  ${RemainToChristmas(christmasremainingSeconds)} seconds`;
+
+}
+
+DisplayRemainTime();
+setInterval(getClock, 1000);
+
 ```
+
+- `1000*60`이 반복되어서 따로 상수를 만들었고 이를 이용해서 Hours,Day에 대한 상수도 만들었다.
+- 또한 `String(xxx).padStart(2, "0")`도 반복되기 때문에 따로 `RemainToChristmas`라는 함수로 만들었는데 `padStart`는 빼버렸다.
+- 먼저 `RemainToChristmas` 함수에서 return한 것을 이용해서 `getClock()` 함수의 return문에 이용하였다.
+- 
 ---
 
 </br>
